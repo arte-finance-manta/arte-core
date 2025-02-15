@@ -35,8 +35,6 @@ contract MockArthaScript is Script {
 
         // deploy IPs
         mockIP1 = new MockERC721("IP 1", "IP1");
-        mockIP2 = new MockERC721("IP 2", "IP2");
-        mockIP3 = new MockERC721("IP 3", "IP3");
 
         // deployIRMs
         mockIrm1 = new MockIrm(5e16);
@@ -99,7 +97,7 @@ contract MockArthaScript is Script {
 
         // pool4: IP-1, USDT, Oracle-1, Irm-1, LTV-75, LTH-80
         poolParams = PoolParams({
-            collateralToken: address(mockIP2),
+            collateralToken: address(mockIP1),
             loanToken: address(mockUSDT),
             oracle: address(mockOracle1),
             irm: address(mockIrm1),
@@ -109,9 +107,9 @@ contract MockArthaScript is Script {
 
         Id pool4 = mockArtha.createPool(poolParams);
 
-        // pool5: IP-2, USDC, Oracle-2, Irm-1, LTV-75, LTH-80
+        // pool5: IP-1, USDC, Oracle-2, Irm-1, LTV-75, LTH-80
         poolParams = PoolParams({
-            collateralToken: address(mockIP2),
+            collateralToken: address(mockIP1),
             loanToken: address(mockUSDC),
             oracle: address(mockOracle2),
             irm: address(mockIrm1),
@@ -121,9 +119,9 @@ contract MockArthaScript is Script {
 
         Id pool5 = mockArtha.createPool(poolParams);
 
-        // pool6: IP-2, USDT, Oracle-2, Irm-3, LTV-80, LTH-85
+        // pool6: IP-1, USDT, Oracle-2, Irm-3, LTV-80, LTH-85
         poolParams = PoolParams({
-            collateralToken: address(mockIP2),
+            collateralToken: address(mockIP1),
             loanToken: address(mockUSDT),
             oracle: address(mockOracle2),
             irm: address(mockIrm3),
@@ -133,9 +131,9 @@ contract MockArthaScript is Script {
 
         Id pool6 = mockArtha.createPool(poolParams);
 
-        // pool7: IP-2, USDC, Oracle-2, Irm-3, LTV-80, LTH-85
+        // pool7: IP-1, USDC, Oracle-2, Irm-3, LTV-80, LTH-85
         poolParams = PoolParams({
-            collateralToken: address(mockIP2),
+            collateralToken: address(mockIP1),
             loanToken: address(mockUSDC),
             oracle: address(mockOracle2),
             irm: address(mockIrm3),
@@ -145,9 +143,9 @@ contract MockArthaScript is Script {
 
         Id pool7 = mockArtha.createPool(poolParams);
 
-        // pool8: IP-3, USDC, Oracle-3, Irm-1, LTV-90, LTH-93
+        // pool8: IP-1, USDC, Oracle-3, Irm-1, LTV-90, LTH-93
         poolParams = PoolParams({
-            collateralToken: address(mockIP3),
+            collateralToken: address(mockIP1),
             loanToken: address(mockUSDC),
             oracle: address(mockOracle3),
             irm: address(mockIrm1),
@@ -170,12 +168,11 @@ contract MockArthaScript is Script {
         mockIP1.mint(account, 3);
         mockIP1.mint(account, 4);
         mockIP1.mint(account, 5);
-        mockIP2.mint(account, 1);
-        mockIP2.mint(account, 2);
-        mockIP2.mint(account, 3);
+        mockIP1.mint(account, 6);
+        mockIP1.mint(account, 7);
+        mockIP1.mint(account, 8);
 
         mockIP1.setApprovalForAll(address(mockArtha), true);
-        mockIP2.setApprovalForAll(address(mockArtha), true);
 
         mockArtha.supply(pool1, 1_900e6, account);
         mockArtha.supply(pool2, 5_700e6, account);
@@ -189,12 +186,9 @@ contract MockArthaScript is Script {
         // IP 1
         mockArtha.supplyCollateralAndBorrow(pool1, 1, 200e6, account, account);
         mockArtha.supplyCollateralAndBorrow(pool2, 2, 300e6, account, account);
+        mockArtha.supplyCollateralAndBorrow(pool2, 5, 300e6, account, account);
+        mockArtha.supplyCollateralAndBorrow(pool2, 6, 300e6, account, account);
         mockArtha.repay(pool1, 1, 50e6, account);
-
-        // IP 2
-        mockArtha.supplyCollateralAndBorrow(pool5, 1, 120e6, account, account);
-        mockArtha.supplyCollateralAndBorrow(pool6, 2, 150e6, account, account);
-        mockArtha.repay(pool5, 1, 30e6, account);
 
         console.log("mock USDC deployed at", address(mockUSDC));
         console.log("mock USDT deployed at", address(mockUSDT));
@@ -208,8 +202,6 @@ contract MockArthaScript is Script {
         console.log("mock Irm 3 deployed at", address(mockIrm3));
         // IPs
         console.log("mock IP 1 deployed at", address(mockIP1));
-        console.log("mock IP 2 deployed at", address(mockIP2));
-        console.log("mock IP 3 deployed at", address(mockIP3));
         // MockArtha
         console.log("MockArtha deployed at", address(mockArtha));
         // pools

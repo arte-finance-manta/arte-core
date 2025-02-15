@@ -3,3 +3,5 @@ optimizer_runs = 10000
 src = "src"
 out = "out"
 libs = ["lib"]
+optimizer = true
+via_ir = true
